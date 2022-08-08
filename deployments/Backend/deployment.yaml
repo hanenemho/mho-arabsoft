@@ -1,0 +1,24 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: sonede-backend-deployment
+  labels:
+    app: sonede-backend-deployment
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: sonede-backend-deployment
+  
+  template:
+    metadata:
+      name: sonede-backend-deployment
+      labels:
+        app: sonede-backend-deployment
+    spec:
+      containers:
+        - name: sonede-backend-container
+          image: soned-fact-backend:latest
+          imagePullPolicy: Never
+          ports:
+            - containerPort: 8059

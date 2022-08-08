@@ -1,0 +1,7 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: configmap-mysql
+data:
+  MYSQL_DATABASE: arabsoftsonede
+  MYSQL_ROOT_PASSWORD: "root"

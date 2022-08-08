@@ -16,7 +16,7 @@ pipeline {
 
         
         
-         stage("Build") {
+         stage("Backend Build") {
            steps {
                 bat "mvn clean install -U"
                 bat "mvn test"
@@ -26,27 +26,73 @@ pipeline {
             }
         }
         
-         stage("Sonar") {
+         stage("Backend Sonar") {
               steps {
                   bat "mvn sonar:sonar -Dmaven.test.skip"
                  
               }
           }
         
-        // stage("DEPLOY") {
-        //     steps {
-        //         bat "mvn deploy -DskipTests"
-        //     }mysql -h 127.0.0.1 -u root -proot
-        // }docker run --name some-mysql -e MYSQL_ROOT_PASSWORD=my-secret-pw -d mysql:tag
-        
-       // stage("Docker") {
-        //      steps {
-          //        bat "docker start db"
-            //      bat "docker build -t arabsoft:latest . "
-              //    bat "docker run --name mho -p 8081:8080 --link db arabsoft:latest "
+        stage("Dockerising Backend") {
+             steps {
+                  bat "docker build -t soned-fact-backend:latest . "
+                  
                  
-              //}
-          //}
+              }
+          }
+
+          stage("K8s Deploying Data base") {
+            steps {
+                  bat "kubectl apply -f ./deployments/Database/configmap.yaml"
+                  bat "kubectl apply -f ./deployments/Database/deployment.yaml"
+                  bat "kubectl apply -f ./deployments/Database/service.yaml"
+                  
+                 
+              }
+          }
+
+        stage("K8s Deploying backend") {
+             steps {
+                  bat "kubectl apply -f ./deployments/Backend/configmap.yaml"
+                  bat "kubectl apply -f ./deployments/Backend/deployment.yaml"
+                  bat "kubectl apply -f ./deployments/Backend/service.yaml"
+                  
+                 
+              }
+          }
+      stage ('GIT Frontend') {
+            steps {
+               bat "mkdir Front"
+               bat "cd Front"
+               echo "Getting Project from Git"; 
+                git branch: "master", 
+                    url: "https://github.com/hanenemho/mho-arabsoft.git",
+                    credentialsId: "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"; 
+            }
+        }
+     
+         stage("Frontend Build") {
+           steps {
+                bat "npm run build --prod"
+            }
+        }
+        stage("Dockerising Frontend") {
+             steps {
+                  bat "docker build -t  sonede-frontend:latest . "
+                  
+                 
+              }
+          }
+        stage("K8s Deploying Frontend") {
+            steps {
+                  bat "kubectl apply -f ./deployments/Frontend/deployment.yaml"
+                  bat "kubectl apply -f ./deployments/Frontend/service.yaml"
+                  
+                 
+              }
+          }
+
+
     }
    
   //  post {
