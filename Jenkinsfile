@@ -43,9 +43,9 @@ pipeline {
 
           stage("K8s Deploying Data base") {
             steps {
-                  bat "kubectl apply -f ./deployments/Database/configmap.yaml --context "docker-desktop""
-                  bat "kubectl apply -f ./deployments/Database/deployment.yaml--context "docker-desktop""
-                  bat "kubectl apply -f ./deployments/Database/service.yaml--context "docker-desktop""
+                  bat 'kubectl apply -f ./deployments/Database/configmap.yaml --context "docker-desktop"'
+                  bat 'kubectl apply -f ./deployments/Database/deployment.yaml--context "docker-desktop"'
+                  bat 'kubectl apply -f ./deployments/Database/service.yaml--context "docker-desktop"
                   
                  
               }
@@ -53,9 +53,9 @@ pipeline {
 
         stage("K8s Deploying backend") {
              steps {
-                  bat "kubectl apply -f ./deployments/Backend/configmap.yaml --context "docker-desktop""
-                  bat "kubectl apply -f ./deployments/Backend/deployment.yaml --context "docker-desktop""
-                  bat "kubectl apply -f ./deployments/Backend/service.yaml --context "docker-desktop" "
+                  bat 'kubectl apply -f ./deployments/Backend/configmap.yaml --context "docker-desktop"'
+                  bat 'kubectl apply -f ./deployments/Backend/deployment.yaml --context "docker-desktop"'
+                  bat 'kubectl apply -f ./deployments/Backend/service.yaml --context "docker-desktop"'
                   
                  
               }
@@ -85,8 +85,8 @@ pipeline {
           }
         stage("K8s Deploying Frontend") {
             steps {
-                  bat "kubectl apply -f ./deployments/Frontend/deployement.yaml --context "docker-desktop""
-                  bat "kubectl apply -f ./deployments/Frontend/service.yaml --context "docker-desktop""
+                  bat 'kubectl apply -f ./deployments/Frontend/deployement.yaml --context "docker-desktop"'
+                  bat 'kubectl apply -f ./deployments/Frontend/service.yaml --context "docker-desktop"'
                   
                  
               }
