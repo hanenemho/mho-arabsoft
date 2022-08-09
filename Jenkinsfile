@@ -98,12 +98,8 @@ pipeline {
        
 
 
-    }
+    
    
-  //  post {
-  //      always {
-            //cleanWs()
- //       }
-  //  }
+
     
 }
