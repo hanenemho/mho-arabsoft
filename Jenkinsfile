@@ -43,21 +43,22 @@ pipeline {
 
           stage("K8s Deploying Data base") {
             steps {
-                  bat 'kubectl config get-contexts'
-                  bat 'kubectl apply -f ./deployments/Database/configmap.yaml --context "docker-desktop"'
-                  bat 'kubectl apply -f ./deployments/Database/deployment.yaml--context "docker-desktop"'
-                  bat 'kubectl apply -f ./deployments/Database/service.yaml--context "docker-desktop"'
-                  
+                  bat 'cd ./deployments/Database/'
+                  kubernetesDeploy (configs:"configmap.yaml ",kubeconfigId:"kubernetes")
+
+                  kubernetesDeploy (configs:"deployment.yaml",kubeconfigId:"kubernetes")
+	          kubernetesDeploy (configs:"service.yaml",kubeconfigId:"kubernetes")
                  
               }
           }
 
         stage("K8s Deploying backend") {
              steps {
-                  bat 'kubectl apply -f ./deployments/Backend/configmap.yaml --context "docker-desktop"'
-                  bat 'kubectl apply -f ./deployments/Backend/deployment.yaml --context "docker-desktop"'
-                  bat 'kubectl apply -f ./deployments/Backend/service.yaml --context "docker-desktop"'
-                  
+                  bat 'cd ../Backend/'
+                  kubernetesDeploy (configs:"configmap.yaml ",kubeconfigId:"kubernetes")
+                  kubernetesDeploy (configs:"deployment.yaml",kubeconfigId:"kubernetes")
+	          kubernetesDeploy (configs:"service.yaml",kubeconfigId:"kubernetes")
+                 
                  
               }
           }
@@ -86,8 +87,10 @@ pipeline {
           }
         stage("K8s Deploying Frontend") {
             steps {
-                  bat 'kubectl apply -f ./deployments/Frontend/deployement.yaml --context "docker-desktop"'
-                  bat 'kubectl apply -f ./deployments/Frontend/service.yaml --context "docker-desktop"'
+                  bat'cd ./deployments/Frontend/'
+                  kubernetesDeploy (configs:"deployement.yaml",kubeconfigId:"kubernetes")
+	          kubernetesDeploy (configs:"service.yaml",kubeconfigId:"kubernetes")
+                 
                   
                  
               }
