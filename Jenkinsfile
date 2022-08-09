@@ -43,9 +43,9 @@ pipeline {
 
           stage("K8s Deploying Data base") {
             steps {
-                  bat "kubectl apply -f ./deployments/Database/configmap.yaml"
-                  bat "kubectl apply -f ./deployments/Database/deployment.yaml"
-                  bat "kubectl apply -f ./deployments/Database/service.yaml"
+                  bat "kubectl apply -f ./deployments/Database/configmap.yaml --context docker-desktop"
+                  bat "kubectl apply -f ./deployments/Database/deployment.yaml--context docker-desktop"
+                  bat "kubectl apply -f ./deployments/Database/service.yaml--context docker-desktop"
                   
                  
               }
@@ -53,9 +53,9 @@ pipeline {
 
         stage("K8s Deploying backend") {
              steps {
-                  bat "kubectl apply -f ./deployments/Backend/configmap.yaml"
-                  bat "kubectl apply -f ./deployments/Backend/deployment.yaml"
-                  bat "kubectl apply -f ./deployments/Backend/service.yaml"
+                  bat "kubectl apply -f ./deployments/Backend/configmap.yaml --context docker-desktop"
+                  bat "kubectl apply -f ./deployments/Backend/deployment.yaml --context docker-desktop"
+                  bat "kubectl apply -f ./deployments/Backend/service.yaml --context docker-desktop"
                   
                  
               }
@@ -65,8 +65,8 @@ pipeline {
                bat "mkdir Front"
                bat "cd Front"
                echo "Getting Project from Git"; 
-                git branch: "master", 
-                    url: "https://github.com/hanenemho/mho-arabsoft.git",
+                git branch: "main", 
+                    url: "https://github.com/hanenemho/mho-frontendarab.git",
                     credentialsId: "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"; 
             }
         }
@@ -85,12 +85,13 @@ pipeline {
           }
         stage("K8s Deploying Frontend") {
             steps {
-                  bat "kubectl apply -f ./deployments/Frontend/deployment.yaml"
-                  bat "kubectl apply -f ./deployments/Frontend/service.yaml"
+                  bat "kubectl apply -f ./deployments/Frontend/deployment.yaml --context docker-desktop"
+                  bat "kubectl apply -f ./deployments/Frontend/service.yaml --context docker-desktop"
                   
                  
               }
           }
+       
 
 
     }
