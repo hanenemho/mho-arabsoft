@@ -43,6 +43,7 @@ pipeline {
 
           stage("K8s Deploying Data base") {
             steps {
+                  bat 'kubectl config get-contexts'
                   bat 'kubectl apply -f ./deployments/Database/configmap.yaml --context "docker-desktop"'
                   bat 'kubectl apply -f ./deployments/Database/deployment.yaml--context "docker-desktop"'
                   bat 'kubectl apply -f ./deployments/Database/service.yaml--context "docker-desktop"'
