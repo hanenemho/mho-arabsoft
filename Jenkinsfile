@@ -35,11 +35,11 @@ pipeline {
 
           stage("K8s Deploying Data base") {
             steps {
-                  bat 'cd ./deployments/Database/'
-                  kubernetesDeploy (configs:"configmap.yaml ",kubeconfigId:"kubernetes")
+                  
+                  kubernetesDeploy (configs:"./deployments/Database/'configmap.yaml ",kubeconfigId:"kubernetes")
 
-                  kubernetesDeploy (configs:"deployment.yaml",kubeconfigId:"kubernetes")
-	          kubernetesDeploy (configs:"service.yaml",kubeconfigId:"kubernetes")
+                  kubernetesDeploy (configs:"./deployments/Database/'deployment.yaml",kubeconfigId:"kubernetes")
+	          kubernetesDeploy (configs:"./deployments/Database/'service.yaml",kubeconfigId:"kubernetes")
                  
               }
           }
