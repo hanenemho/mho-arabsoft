@@ -36,9 +36,9 @@ pipeline {
           stage("K8s Deploying Data base") {
             steps {
                   
-                  bat 'kubectl apply -f ./deployments/Database/configmap.yaml'
-                  bat 'kubectl apply -f ./deployments/Database/deployment.yaml'
-	          bat 'kubectl apply -f ./deployments/Database/service.yaml'
+                  kubernetesDeploy (./deployments/Database/configmap.yaml ",kubeconfigId:"kubernetes")
+                  kubernetesDeploy (./deployments/Database/deployment.yaml ",kubeconfigId:"kubernetes")
+                  kubernetesDeploy (./deployments/Database/service.yaml ",kubeconfigId:"kubernetes")
                  
               }
           }
