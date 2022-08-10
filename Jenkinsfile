@@ -36,9 +36,9 @@ pipeline {
           stage("K8s Deploying Data base") {
             steps {
                   
-                  kubernetesDeploy (./deployments/Database/configmap.yaml ",kubeconfigId:"kubernetes")
-                  kubernetesDeploy (./deployments/Database/deployment.yaml ",kubeconfigId:"kubernetes")
-                  kubernetesDeploy (./deployments/Database/service.yaml ",kubeconfigId:"kubernetes")
+                  kubernetesDeploy (configs:"./deployments/Database/configmap.yaml ",kubeconfigId:"kubernetes")
+                  kubernetesDeploy (configs:"./deployments/Database/deployment.yaml ",kubeconfigId:"kubernetes")
+                  kubernetesDeploy (configs:"./deployments/Database/service.yaml ",kubeconfigId:"kubernetes")
                  
               }
           }
