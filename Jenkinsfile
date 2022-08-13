@@ -12,10 +12,9 @@ pipeline {
          
           stage("K8s Deploying Data base") {
             steps { 
-		 script{
-                 KubernetesDeploy (configs: "deployments/Database/configmap.yaml",kubeconfigId:"kubernetes")
-                 }
-                 
+                 withKubeConfig([credentialsId: 'kubernetes', serverUrl: 'https://kubernetes.docker.internal:6443']) {
+      sh 'kubectl apply -f ./deployments/Database/configmap.yaml'
+		 
               }
           }
 
