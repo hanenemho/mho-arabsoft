@@ -18,7 +18,7 @@ spec:
     spec:
       containers:
         - name: sonede-backend-container
-          image: soned-fact-backend:latest
+          image: docker push hanenemho12/soned-fact-backend:latest
           imagePullPolicy: Never
           ports:
             - containerPort: 8059
