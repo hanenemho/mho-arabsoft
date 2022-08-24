@@ -12,7 +12,7 @@ pipeline {
          
           stage("K8s Deploying Data base") {
             steps { 
-	         script {kubernetesDeploy (configs:'deployments/Database/configmap.yaml',kubeconfigId:'k8scred')
+	         script {kubernetesDeploy (configs:'deployments/Database/deployment.yaml',kubeconfigId:'k8scred')
                  }
                		 
              }
