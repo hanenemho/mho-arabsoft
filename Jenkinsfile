@@ -49,7 +49,7 @@ pipeline {
              steps {
                   script {kubernetesDeploy (configs:'deployments/Backend/configmap.yaml',kubeconfigId:'k8scred')}
                  script {kubernetesDeploy (configs:'deployments/Backend/deployment.yaml',kubeconfigId:'k8scred')}
-                 script {kubernetesDeploy (configs:'deployments/DBackend/service.yaml',kubeconfigId:'k8scred')
+                 script {kubernetesDeploy (configs:'deployments/Backend/service.yaml',kubeconfigId:'k8scred')
                  }
                  
                  
