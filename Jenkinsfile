@@ -68,7 +68,7 @@ pipeline {
      
          stage("Frontend Build") {
            steps {
-		bat "npm install"
+	
                 bat "npm run build --prod"
             }
         }
