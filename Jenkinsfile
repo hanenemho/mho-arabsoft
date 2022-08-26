@@ -85,8 +85,6 @@ pipeline {
                   script {kubernetesDeploy (configs:'deployments/Frontend/deployement.yaml',kubeconfigId:'k8scred')}
 	          script {kubernetesDeploy (configs:'deployments/Frontend/service.yaml',kubeconfigId:'k8scred')}
                  
-                  
-                 
               }
           }
     }  
