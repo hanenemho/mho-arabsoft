@@ -36,10 +36,10 @@ pipeline {
           stage("K8s Deploying Data base") {
             steps {
                   
-                 script {kubernetesDeploy (configs:'deployments/Database/configmap.yaml',kubeconfigId:'k8scred')}
-                 script {kubernetesDeploy (configs:'deployments/Database/secret.yaml',kubeconfigId:'k8scred')}
-                 script {kubernetesDeploy (configs:'deployments/Database/deployment.yaml',kubeconfigId:'k8scred')}
-                 script {kubernetesDeploy (configs:'deployments/Database/service.yaml',kubeconfigId:'k8scred')
+                 script {kubernetesDeploy (configs:'deployments/Database/configmap.yaml',kubeconfigId:'aws-EKS-us-east-2')}
+                 script {kubernetesDeploy (configs:'deployments/Database/secret.yaml',kubeconfigId:'aws-EKS-us-east-2')}
+                 script {kubernetesDeploy (configs:'deployments/Database/deployment.yaml',kubeconfigId:'aws-EKS-us-east-2')}
+                 script {kubernetesDeploy (configs:'deployments/Database/service.yaml',kubeconfigId:'aws-EKS-us-east-2')
                  }
                  
               }
@@ -47,9 +47,9 @@ pipeline {
 
         stage("K8s Deploying backend") {
              steps {
-                  script {kubernetesDeploy (configs:'deployments/Backend/configmap.yaml',kubeconfigId:'k8scred')}
-                 script {kubernetesDeploy (configs:'deployments/Backend/deployment.yaml',kubeconfigId:'k8scred')}
-                 script {kubernetesDeploy (configs:'deployments/Backend/service.yaml',kubeconfigId:'k8scred')
+                  script {kubernetesDeploy (configs:'deployments/Backend/configmap.yaml',kubeconfigId:'aws-EKS-us-east-2')}
+                 script {kubernetesDeploy (configs:'deployments/Backend/deployment.yaml',kubeconfigId:'aws-EKS-us-east-2')}
+                 script {kubernetesDeploy (configs:'deployments/Backend/service.yaml',kubeconfigId:'aws-EKS-us-east-2')
                  }
                  
                  
@@ -82,8 +82,8 @@ pipeline {
         stage("K8s Deploying Frontend") {
             steps {
                   bat'cd ./deployments/Frontend/'
-                  script {kubernetesDeploy (configs:'deployments/Frontend/deployement.yaml',kubeconfigId:'k8scred')}
-	          script {kubernetesDeploy (configs:'deployments/Frontend/service.yaml',kubeconfigId:'k8scred')}
+                  script {kubernetesDeploy (configs:'deployments/Frontend/deployement.yaml',kubeconfigId:'aws-EKS-us-east-2')}
+	          script {kubernetesDeploy (configs:'deployments/Frontend/service.yaml',kubeconfigId:'aws-EKS-us-east-2')}
                  
               }
           }
