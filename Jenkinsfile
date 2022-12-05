@@ -28,7 +28,10 @@ pipeline {
         stage("Dockerising Backend") {
              steps {
                   bat "docker build -t soned-fact-backend:latest . "
-                  
+                  bat "kubectl apply -f deployments/Database/configmap.yaml"
+                  bat "kubectl apply -f deployments/Database/secret.yaml"
+                  bat "kubectl apply -f deployments/Database/deployment.yaml"
+                  bat "kubectl apply -f deployments/Database/service.yaml"
                  
               }
           }
