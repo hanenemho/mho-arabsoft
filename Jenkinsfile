@@ -82,7 +82,7 @@ pipeline {
      
          stage("Frontend Build") {
            steps {
-	
+	            sh 'npm install'
                 sh "sudo npm run build --prod"
             }
         }
