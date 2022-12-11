@@ -97,7 +97,6 @@ pipeline {
                   sh'cd ./deployments/Frontend/'
                   script {kubernetesDeploy (configs:'deployments/Frontend/deployement.yaml',kubeconfigId:'aws-EKS-us-east-2')}
 	          script {kubernetesDeploy (configs:'deployments/Frontend/service.yaml',kubeconfigId:'aws-EKS-us-east-2')}
-                 
               }
           }
     }  
