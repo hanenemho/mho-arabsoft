@@ -83,7 +83,7 @@ pipeline {
          stage("Frontend Build") {
            steps {
 	            sh 'npm install'
-                sh "sudo npm run build --prod"
+                sh "npm run build --prod"
             }
         }
         stage("Dockerising Frontend") {
