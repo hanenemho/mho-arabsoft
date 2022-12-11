@@ -9,6 +9,8 @@ pipeline {
                     credentialsId: "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"; 
             }
         }
+
+
          stage("Backend Build") {
            steps {
                 sh "sudo mvn clean install -U"
@@ -35,7 +37,6 @@ pipeline {
                  
               }
           }
-
           stage("K8s Deploying Data base") {
             steps {
                   
@@ -50,7 +51,7 @@ pipeline {
                  }
                  
               }
-          }
+          
 
         stage("K8s Deploying backend") {
              steps {
@@ -58,14 +59,16 @@ pipeline {
                  script {kubernetesDeploy (configs:'deployments/Backend/deployment.yaml',kubeconfigId:'aws-EKS-us-east-2')}
                  script {kubernetesDeploy (configs:'deployments/Backend/service.yaml',kubeconfigId:'aws-EKS-us-east-2')*/
                  sh 'kubectl apply -f deployments/Backend/configmap.yaml'
-                  sh 'kubectl apply -f deployments/Backend/deployment.yaml'
-                   sh 'kubectl apply -f deployments/Backend/service.yaml'
+                sh 'kubectl apply -f deployments/Backend/deployment.yaml'
+               sh 'kubectl apply -f deployments/Backend/service.yaml'
                  }
                  
                  
               }
-          }
-      stage ('GIT Frontend') {
+          
+       
+       
+       stage ('GIT Frontend') {
             steps {
                sh "mkdir Front"
                sh "cd Front"
