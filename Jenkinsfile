@@ -83,12 +83,12 @@ pipeline {
          stage("Frontend Build") {
            steps {
 	
-                sh "npm run build --prod"
+                sh "sudo npm run build --prod"
             }
         }
         stage("Dockerising Frontend") {
              steps {
-                  sh "docker build -t  sonede-frontend:latest . "
+                  sh "sudo docker build -t  sonede-frontend:latest . "
                   
                  
               }
@@ -96,8 +96,10 @@ pipeline {
         stage("K8s Deploying Frontend") {
             steps {
                   sh'cd ./deployments/Frontend/'
-                  script {kubernetesDeploy (configs:'deployments/Frontend/deployement.yaml',kubeconfigId:'aws-EKS-us-east-2')}
-	          script {kubernetesDeploy (configs:'deployments/Frontend/service.yaml',kubeconfigId:'aws-EKS-us-east-2')}
+                  /*script {kubernetesDeploy (configs:'deployments/Frontend/deployement.yaml',kubeconfigId:'aws-EKS-us-east-2')}
+	          script {kubernetesDeploy (configs:'deployments/Frontend/service.yaml',kubeconfigId:'aws-EKS-us-east-2')}*/
+                   sh 'sudo kubectl apply -f deployments/Frontend/deployement.yaml --kubeconfig /home/ubuntu/.kube/config'
+               sh 'sudo kubectl apply -f deployments/Frontend/service.yaml --kubeconfig /home/ubuntu/.kube/config'
               }
           }
     }  
