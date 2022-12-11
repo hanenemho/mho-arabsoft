@@ -44,10 +44,10 @@ pipeline {
                  script {kubernetesDeploy (configs:'deployments/Database/secret.yaml',kubeconfigId:'aws-EKS-us-east-2')}
                  script {kubernetesDeploy (configs:'deployments/Database/deployment.yaml',kubeconfigId:'aws-EKS-us-east-2')}
                  script {kubernetesDeploy (configs:'deployments/Database/service.yaml',kubeconfigId:'aws-EKS-us-east-2')*/
-                 sh 'sudo kubectl apply -f deployments/Database/configmap.yaml -kubeconfig /home/ubuntu/.kube/config'
-                 sh 'sudo kubectl apply -f deployments/Database/secret.yaml -kubeconfig /home/ubuntu/.kube/config'
-                 sh 'sudo kubectl apply -f deployments/Database/deployment.yaml -kubeconfig /home/ubuntu/.kube/config'
-                 sh 'sudo kubectl apply -f deployments/Database/service.yaml -kubeconfig /home/ubuntu/.kube/config'
+                 sh 'sudo kubectl apply -f deployments/Database/configmap.yaml --kubeconfig /home/ubuntu/.kube/config'
+                 sh 'sudo kubectl apply -f deployments/Database/secret.yaml --kubeconfig /home/ubuntu/.kube/config'
+                 sh 'sudo kubectl apply -f deployments/Database/deployment.yaml --kubeconfig /home/ubuntu/.kube/config'
+                 sh 'sudo kubectl apply -f deployments/Database/service.yaml --kubeconfig /home/ubuntu/.kube/config'
                  }
                  
               }
@@ -59,8 +59,8 @@ pipeline {
                  script {kubernetesDeploy (configs:'deployments/Backend/deployment.yaml',kubeconfigId:'aws-EKS-us-east-2')}
                  script {kubernetesDeploy (configs:'deployments/Backend/service.yaml',kubeconfigId:'aws-EKS-us-east-2')*/
                  sh 'sudo kubectl apply -f deployments/Backend/configmap.yaml --kubeconfig /home/ubuntu/.kube/config '
-                sh 'sudo kubectl apply -f deployments/Backend/deployment.yaml -kubeconfig /home/ubuntu/.kube/config'
-               sh 'sudo kubectl apply -f deployments/Backend/service.yaml -kubeconfig /home/ubuntu/.kube/config'
+                sh 'sudo kubectl apply -f deployments/Backend/deployment.yaml --kubeconfig /home/ubuntu/.kube/config'
+               sh 'sudo kubectl apply -f deployments/Backend/service.yaml --kubeconfig /home/ubuntu/.kube/config'
                  }
                  
                  
