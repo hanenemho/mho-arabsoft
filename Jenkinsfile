@@ -84,7 +84,7 @@ pipeline {
            steps {
 	            sh 'npm install'
                 sh'sudo chmod -R 775 node_modules '
-                sh "npm run build --prod"
+                sh "npm build --prod"
             }
         }
         stage("Dockerising Frontend") {
