@@ -70,6 +70,7 @@ pipeline {
        
        stage ('GIT Frontend') {
             steps {
+               sh"rm -rf Front"
                sh "mkdir Front"
                sh "cd Front"
                echo "Getting Project from Git"; 
@@ -100,4 +101,9 @@ pipeline {
               }
           }
     }  
+    post {
+        always {
+            cleanWs()
+        }
+    }
 }
