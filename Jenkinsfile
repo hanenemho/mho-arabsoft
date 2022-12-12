@@ -28,14 +28,16 @@ pipeline {
           }
         
         stage("Dockerising Backend") {
-            script{
+            steps{
               dockerImage_back = docker.build("soned-fact-backend:${currentBuild.number}")
             }
           }
         stage('Push Backend Docker_Image') {
+            steps{
              withDockerRegistry([ credentialsId: "docker_hub", url: "" ]) {
              dockerImage_back.push()
              }
+            }
          }    
           
           stage("K8s Deploying Data base") {
@@ -90,14 +92,16 @@ pipeline {
             }
         }
         stage("Dockerising Frontend") {
-            script{
+            steps{
              dockerImage_front = docker.build("sonede-frontend:${currentBuild.number}")
             }
           }
         stage('Push image') {
+            steps{
              withDockerRegistry([ credentialsId: "docker_hub", url: "" ]) {
              dockerImage_front.push()
              }
+            }
          }    
         stage("K8s Deploying Frontend") {
             steps {
