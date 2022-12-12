@@ -63,8 +63,8 @@ pipeline {
                  /* script {kubernetesDeploy (configs:'deployments/Backend/configmap.yaml',kubeconfigId:'aws-EKS-us-east-2')}
                  script {kubernetesDeploy (configs:'deployments/Backend/deployment.yaml',kubeconfigId:'aws-EKS-us-east-2')}
                  script {kubernetesDeploy (configs:'deployments/Backend/service.yaml',kubeconfigId:'aws-EKS-us-east-2')*/
-                 sh'rm -rf deployments/Backend/deployment.yaml deployments/Backend/deployment.yaml '
-                 sh'cp deployments/Backend/deployment.template  '
+                 sh'rm -rf deployments/Backend/deployment.yaml  '
+                 sh'cp deployments/Backend/deployment.template  deployments/Backend/deployment.yaml'
                  sh"sed -i 's/IMAGE_TAG/${currentBuild.number}/g' deployments/Backend/deployment.yaml"
                  sh 'sudo kubectl apply -f deployments/Backend/configmap.yaml --kubeconfig /home/ubuntu/.kube/config '
                 sh 'sudo kubectl apply -f deployments/Backend/deployment.yaml --kubeconfig /home/ubuntu/.kube/config'
