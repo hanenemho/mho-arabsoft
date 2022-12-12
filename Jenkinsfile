@@ -57,7 +57,9 @@ pipeline {
              steps {
                  /* script {kubernetesDeploy (configs:'deployments/Backend/configmap.yaml',kubeconfigId:'aws-EKS-us-east-2')}
                  script {kubernetesDeploy (configs:'deployments/Backend/deployment.yaml',kubeconfigId:'aws-EKS-us-east-2')}
-                 script {kubernetesDeploy (configs:'deployments/Backend/service.yaml',kubeconfigId:'aws-EKS-us-east-2')*/
+                 script {kubernetesDeploy (configs:'deployments/Backend/service.yaml',kubeconfigId:'aws-EKS-us-east-2')*/*
+                 sh'rm -rf deployments/Backend/deployment.yaml '
+                 sh"sed -i 's/IMAGE_TAG/${currentBuild.number}/g' deployments/Backend/deployement.template >  deployments/Backend/deployement.yaml"
                  sh 'sudo kubectl apply -f deployments/Backend/configmap.yaml --kubeconfig /home/ubuntu/.kube/config '
                 sh 'sudo kubectl apply -f deployments/Backend/deployment.yaml --kubeconfig /home/ubuntu/.kube/config'
                sh 'sudo kubectl apply -f deployments/Backend/service.yaml --kubeconfig /home/ubuntu/.kube/config'
@@ -88,18 +90,20 @@ pipeline {
             }
         }
         stage("Dockerising Frontend") {
-             steps {
-                  sh "sudo docker build -t  sonede-frontend:latest . "
-                  
-                 
-              }
+             dockerImage = docker.build("sonede-frontend:${currentBuild.number}")
+             
           }
+          tage('Push image') {
+        withDockerRegistry([ credentialsId: "docker_hub", url: "" ]) {
+        dockerImage.push()
+        }
+    }    
         stage("K8s Deploying Frontend") {
             steps {
-                  sh'cd ./deployments/Frontend/'
-                  /*script {kubernetesDeploy (configs:'deployments/Frontend/deployement.yaml',kubeconfigId:'aws-EKS-us-east-2')}
-	          script {kubernetesDeploy (configs:'deployments/Frontend/service.yaml',kubeconfigId:'aws-EKS-us-east-2')}*/
-                   sh 'sudo kubectl apply -f deployments/Frontend/deployement.yaml --kubeconfig /home/ubuntu/.kube/config'
+               sh'cd ./deployments/Frontend/'
+               sh"rm -rf deployments/Frontend/deployement.yaml"
+               sh"sed -i 's/IMAGE_TAG/${currentBuild.number}/g' deployments/Frontend/deployement.template >  deployments/Frontend/deployement.yaml"
+               sh 'sudo kubectl apply -f deployments/Frontend/deployement.yaml --kubeconfig /home/ubuntu/.kube/config'
                sh 'sudo kubectl apply -f deployments/Frontend/service.yaml --kubeconfig /home/ubuntu/.kube/config'
               }
           }
