@@ -28,22 +28,18 @@ pipeline {
           }
         
         stage("Dockerising Backend") {
-             steps {
-                  sh "sudo docker build -t soned-fact-backend:latest . "
-                  /*sh "kubectl apply -f deployments/Database/configmap.yaml"
-                  sh "kubectl apply -f deployments/Database/secret.yaml"
-                  sh "kubectl apply -f deployments/Database/deployment.yaml"
-                  sh "kubectl apply -f deployments/Database/service.yaml"*/
-                 
-              }
+              dockerImage_back = docker.build("soned-fact-backend:${currentBuild.number}")
+             
           }
+        stage('Push Backend Docker_Image') {
+             withDockerRegistry([ credentialsId: "docker_hub", url: "" ]) {
+             dockerImage_back.push()
+             }
+         }    
+          
           stage("K8s Deploying Data base") {
             steps {
                   
-                 /*script {kubernetesDeploy (configs:'deployments/Database/configmap.yaml',kubeconfigId:'aws-EKS-us-east-2')}
-                 script {kubernetesDeploy (configs:'deployments/Database/secret.yaml',kubeconfigId:'aws-EKS-us-east-2')}
-                 script {kubernetesDeploy (configs:'deployments/Database/deployment.yaml',kubeconfigId:'aws-EKS-us-east-2')}
-                 script {kubernetesDeploy (configs:'deployments/Database/service.yaml',kubeconfigId:'aws-EKS-us-east-2')*/
                  sh 'sudo kubectl apply -f deployments/Database/configmap.yaml --kubeconfig /home/ubuntu/.kube/config'
                  sh 'sudo kubectl apply -f deployments/Database/secret.yaml --kubeconfig /home/ubuntu/.kube/config'
                  sh 'sudo kubectl apply -f deployments/Database/deployment.yaml --kubeconfig /home/ubuntu/.kube/config'
@@ -51,9 +47,12 @@ pipeline {
                  }
                  
               }
+
           
 
         stage("K8s Deploying backend") {
+
+           
              steps {
                  /* script {kubernetesDeploy (configs:'deployments/Backend/configmap.yaml',kubeconfigId:'aws-EKS-us-east-2')}
                  script {kubernetesDeploy (configs:'deployments/Backend/deployment.yaml',kubeconfigId:'aws-EKS-us-east-2')}
@@ -90,14 +89,14 @@ pipeline {
             }
         }
         stage("Dockerising Frontend") {
-             dockerImage = docker.build("sonede-frontend:${currentBuild.number}")
+             dockerImage_front = docker.build("sonede-frontend:${currentBuild.number}")
              
           }
-          tage('Push image') {
-        withDockerRegistry([ credentialsId: "docker_hub", url: "" ]) {
-        dockerImage.push()
-        }
-    }    
+        stage('Push image') {
+             withDockerRegistry([ credentialsId: "docker_hub", url: "" ]) {
+             dockerImage_front.push()
+             }
+         }    
         stage("K8s Deploying Frontend") {
             steps {
                sh'cd ./deployments/Frontend/'
