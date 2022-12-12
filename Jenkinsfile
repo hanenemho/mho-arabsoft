@@ -28,8 +28,9 @@ pipeline {
           }
         
         stage("Dockerising Backend") {
+            script{
               dockerImage_back = docker.build("soned-fact-backend:${currentBuild.number}")
-             
+            }
           }
         stage('Push Backend Docker_Image') {
              withDockerRegistry([ credentialsId: "docker_hub", url: "" ]) {
@@ -89,8 +90,9 @@ pipeline {
             }
         }
         stage("Dockerising Frontend") {
+            script{
              dockerImage_front = docker.build("sonede-frontend:${currentBuild.number}")
-             
+            }
           }
         stage('Push image') {
              withDockerRegistry([ credentialsId: "docker_hub", url: "" ]) {
