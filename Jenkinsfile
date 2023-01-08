@@ -123,6 +123,10 @@ pipeline {
           }
     }  
      
-    
+     post {
+        always {
+            cleanWs()
+        }
+    }
     
 }
