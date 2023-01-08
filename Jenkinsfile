@@ -115,7 +115,7 @@ pipeline {
             steps {
                sh'cd ./deployments/Frontend/'
                sh"rm -rf deployments/Frontend/deployement.yaml"
-               sh'cp deployments/Frontend/deployement.template deployments/Frontend/deployement.yaml"
+               sh"cp deployments/Frontend/deployement.template deployments/Frontend/deployement.yaml"
                sh"sed -i 's/IMAGE_TAG/${currentBuild.number}/g' deployments/Frontend/deployement.yaml"
                sh 'sudo kubectl apply -f deployments/Frontend/deployement.yaml --kubeconfig /home/ubuntu/.kube/config'
                sh 'sudo kubectl apply -f deployments/Frontend/service.yaml --kubeconfig /home/ubuntu/.kube/config'
